@@ -3,10 +3,15 @@
 # @Author  : AaronJny
 # @Email   : Aaron__7@163.com
 import sys
-
+import os
+# python3 reload 用法
+from importlib import reload
 reload(sys)
-sys.setdefaultencoding('utf8')
+
+# sys.setdefaultencoding('utf8')
 import collections
+
+W_DIR = os.chdir('D:/Documents/GitHub/peotry_generate/')
 
 ORIGIN_DATA = 'origin_data/poetry.txt'  # 源数据路径
 
@@ -25,13 +30,13 @@ def word_to_id(word, id_dict):
 poetry_list = []  # 存放唐诗的数组
 
 # 从文件中读取唐诗
-with open(ORIGIN_DATA, 'r') as f:
+with open(ORIGIN_DATA, 'r',encoding="utf-8") as f:
     f_lines = f.readlines()
-    print '唐诗总数 : {}'.format(len(f_lines))
+    print ('唐诗总数 : {}'.format(len(f_lines)))
     # 逐行进行处理
     for line in f_lines:
-        # 去除前后空白符，转码
-        strip_line = line.strip().decode('utf8')
+        # 去除前后空白符
+        strip_line = line.strip()
         try:
             # 将唐诗分为标题和内容
             title, content = strip_line.split(':')
@@ -50,7 +55,7 @@ with open(ORIGIN_DATA, 'r') as f:
         # 加入列表
         poetry_list.append('s' + content + 'e')
 
-print '用于训练的唐诗数 : {}'.format(len(poetry_list))
+print ('用于训练的唐诗数 : {}'.format(len(poetry_list)))
 
 poetry_list=sorted(poetry_list,key=lambda x:len(x))
 
@@ -67,7 +72,7 @@ words_list = ['<unknow>'] + [x[0] for x in sorted_words]
 # 这里选择保留高频词的数目，词只有不到七千个，所以我全部保留
 words_list = words_list[:len(words_list)]
 
-print '词汇表大小 ： {}'.format(words_list)
+print ('词汇表大小 ： {}'.format(words_list))
 
 with open(VOCAB_DATA, 'w') as f:
     for word in words_list:
