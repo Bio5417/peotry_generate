@@ -6,7 +6,9 @@ import tensorflow as tf
 from rnn_models import TrainModel
 import dataset
 import setting
+import os
 
+W_DIR = os.chdir('D:/Documents/GitHub/peotry_generate/')
 TRAIN_TIMES = 30000  # 迭代总次数（没有计算epoch）
 SHOW_STEP = 1  # 显示loss频率
 SAVE_STEP = 100  # 保存模型参数频率
@@ -32,7 +34,7 @@ with tf.Session() as sess:
                            {model.data: x, model.labels: y, model.emb_keep: setting.EMB_KEEP,
                             model.rnn_keep: setting.RNN_KEEP})
         if step % SHOW_STEP == 0:
-            print 'step {}, loss is {}'.format(step, loss)
+            print('step {}, loss is {}'.format(step, loss))
         # 保存模型
         if step % SAVE_STEP == 0:
             saver.save(sess, setting.CKPT_PATH, global_step=model.global_step)
